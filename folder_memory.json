@@ -1,7 +1,7 @@
 {
     "D:\\Sem6\\Labs\\MLT": {
         "folder_path": "D:\\Sem6\\Labs\\MLT",
-        "timestamp": "2025-03-01T12:36:31.065448",
+        "timestamp": "2025-03-01T20:29:38.711871",
         "summary": {
             "total_files": 17,
             "total_folders": 1,
@@ -25,38 +25,18 @@
             "Rakesh_MLT_Ex1b.ipynb (Unknown, 11.53 KB)",
             "Rakesh_MLT_Ex1b.pdf (application/pdf, 220.86 KB)"
         ],
-        "description": "This folder, located at D:\\Sem6\\Labs\\MLT, contains materials related to a Machine Learning and Technology (MLT) course, likely from the sixth semester.  It holds a mix of documents and data files, including 17 files and one subfolder.  The majority of files (7) are PDFs, while 6 are Word documents (.docx), and there's a single Excel file.  The files appear to be associated with exercises (Ex1a, Ex1b, Ex2), possibly assignments or lab work,  featuring different file types like Jupyter notebooks (.ipynb) and their corresponding PDF and Word document outputs. The largest file is a PDF (over 1MB) and the total size of all files is over 3MB (excluding subfolder contents).  The \"Unknown\" file type suggests some files may not have been properly identified.\n"
-    },
-    "D:\\projects\\CAT": {
-        "folder_path": "D:\\projects\\CAT",
-        "timestamp": "2025-03-01T12:37:20.102692",
-        "summary": {
-            "total_files": 122,
-            "total_folders": 79,
-            "file_types": {
-                "video/mp4": 3,
-                "text/x-python": 8,
-                "application/vnd.ms-excel": 6,
-                "application/javascript": 1,
-                "text/css": 1,
-                "text/html": 1,
-                "image/png": 1
-            },
-            "largest_file": "D:\\projects\\CAT\\Recording 2025-02-20 210351.mp4",
-            "largest_size": 39411494
+        "file_contents": {
+            "D:\\Sem6\\Labs\\MLT\\Ex2 - Feature Selection and Extraction .docx": " ",
+            "D:\\Sem6\\Labs\\MLT\\MLTex1a.pdf": "1 \n  \nEx No 1a   \nExploratory Data Analysis   \nReg.No: \nURK22CS7112  Date:  \n Aim:  \nTo perform the initial investigations and analysis on the given dataset & summarize the \ncharacteristics of the given dataset using python implementation.  \nDescription:  \nExploratory Data Analysis refers to the critical process of performing initial investigations on data \nso as to discover patterns to spot anomalies to test hypothesis and to check assumptions with \nthe help of summary statistics and graphical ",
+            "D:\\Sem6\\Labs\\MLT\\MLTex1b.pdf": "8 \n  \nEx No 1b   \nData Preprocessing   \nReg No:  \n \nURK22CS7112  Date:  \n Aim:  \nTo prepare the data suitable for the machine learning model, perform data cleaning, - data reduction and \ndata transformation on the given dataset using python implementation.  \nDescription:  \nData preprocessing is a process of preparing the raw data and making it suitable for a machine learning \nmodel.  \n\u25cf Data cleaning can be applied to \u201cclean\u201d the data by filling in missing values, smoothing noisy \ndata, identify",
+            "D:\\Sem6\\Labs\\MLT\\Rakesh.docx": " ",
+            "D:\\Sem6\\Labs\\MLT\\Rakesh_MLT_Ex1a.docx": " It\u2019s a good practice to remove correlated variables during feature selection(which less contributes with the target variable), to improve the model If correlation is zero, there is no linear relationship between these two variables, so it is safe to drop these features Pearson correlation coefficient or Spearman correlation coefficient  3) Univariate, Bivariate and Multivariate analysis  Univariate - analyzing only one variable. Bivariate - comparing two variables to study their relationships. ",
+            "D:\\Sem6\\Labs\\MLT\\Rakesh_MLT_Ex1a.ipynb": "Content reading not supported for this file type.",
+            "D:\\Sem6\\Labs\\MLT\\Rakesh_MLT_Ex1a.pdf": "1  Ex No 1a  \nExploratory  Data  Analysis   \nReg.No: \nURK22CS71 21 Date:  \nAim:  \nTo perform  the initial  investigations  and analysis  on the given  dataset  & summarize  the \ncharacteristics of the given dataset using python implementation.  \nDescription:  \nExploratory  Data Analysis  refers  to the critical  process  of performing  initial  investigations  on data \nso as to discover patterns to spot anomalies to test hypothesis and to check assumptions with \nthe help of summary statistics an",
+            "D:\\Sem6\\Labs\\MLT\\Rakesh_MLT_Ex1b.docx": " Drop the outliers Drop duplicates  DATA TRANSFORMATION:   Data transformation is a technique used to convert the raw data into a suitable format.  Normalization - Data normalization involves converting all data variable into a given range. Min-max - This method implements a linear transformation on the original Data Z-score \u2013 This method normalizes the value using the mean and standard deviation Encoding method - convert the categorical features into its numeric representation. Label encoding -",
+            "D:\\Sem6\\Labs\\MLT\\Rakesh_MLT_Ex1b.ipynb": "Content reading not supported for this file type.",
+            "D:\\Sem6\\Labs\\MLT\\Rakesh_MLT_Ex1b.pdf": "8  Ex No 1b  \nData  Preprocessing   \nReg No: \nURK22CS71 21 Date:  \nAim:  \nTo prepare  the data suitable  for the machine  learning  model,  perform  data cleaning, - data reduction  and \ndata transformation on the given dataset using python implementation.  \nDescription:  \nData  preprocessing  is a process  of preparing  the raw data and making  it suitable  for a machine  learning \nmodel.  \n\u25cf Data  cleaning  can be applied  to \u201cclean\u201d  the data by filling  in missing  values,  smoothing  noisy "
         },
-        "details": [
-            "Recording 2025-02-08 233404.mp4 (video/mp4, 5110.09 KB)",
-            "Recording 2025-02-08 233748.mp4 (video/mp4, 3692.13 KB)",
-            "Recording 2025-02-20 210351.mp4 (video/mp4, 38487.79 KB)",
-            "algo.py (text/x-python, 5.59 KB)",
-            "Dataset_Gen.py (text/x-python, 1.59 KB)",
-            "pred_difficulty.py (text/x-python, 1.87 KB)",
-            "README.md (Unknown, 0.03 KB)",
-            "Simulated_Test.ipynb (Unknown, 92.92 KB)",
-            "tempCodeRunnerFile.py (text/x-python, 0.02 KB)",
-            "test2_performance.csv (application/vnd.ms-excel, 0.51 KB)"
-        ],
-        "description": "This folder contains a mix of files related to a project, likely involving data analysis and possibly video recording.  There are 122 files and 79 subfolders in total.  The main types of files are Python scripts (8 files), Excel spreadsheets (6 files), and MP4 video files (3 files), along with a few other miscellaneous files like HTML, CSS, JavaScript, and a README file. The largest file is a video file (38.5 MB).  The Python scripts suggest some coding work was done, possibly related to data analysis or machine learning given the presence of files like `Dataset_Gen.py` and `pred_difficulty.py`. The Excel files may contain datasets used in the analysis. The overall size of the folder's contents is substantial given the presence of a large video file.\n"
+        "description": "This folder appears to contain materials for a Machine Learning (ML) course, specifically focusing on labs for a module likely titled \"MLT\".  There are 17 files and 1 subfolder.  The files are predominantly .docx and .pdf documents, with a few .ipynb files (Jupyter Notebooks).  The largest file is a PDF, exceeding 1MB.\n\nThe documents seem to be student work relating to two experiments (Ex1a and Ex1b, and potentially Ex2).  The content snippets reveal a focus on Exploratory Data Analysis (EDA) and Data Preprocessing.  \n\nEx1a covers EDA, including initial data investigation and summarizing dataset characteristics using Python. Ex1b focuses on Data Preprocessing, detailing data cleaning (handling missing values and noisy data), data reduction, and data transformation techniques such as normalization (min-max and Z-score) and encoding categorical features.  There are also mentions of handling outliers and duplicates.  A separate document (Rakesh_MLT_Ex1a.docx) also briefly touches upon feature selection, mentioning correlation analysis and univariate/bivariate/multivariate analysis.  The .ipynb files are likely code implementations related to these experiments, but their contents cannot be viewed.  Finally, there's mention of an \"Ex2\" which appears to relate to Feature Selection and Extraction.\n\nIn short, the folder is a well-organized collection of student lab work centered around essential data science concepts and their practical application in Python.\n"
     }
 }
