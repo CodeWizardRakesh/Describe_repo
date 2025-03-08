@@ -75,7 +75,7 @@ def save_memory(folder_path, summary, details, file_contents, description):
         "summary": summary,
         "details": details[:10],
         "file_contents": {k: v for k, v in list(file_contents.items())[:10]},
-        "description": description  # Only description, no reasoning
+        "description": description
     }
     
     existing_memory = {}
@@ -107,14 +107,12 @@ def describe_folder(folder_path, use_memory=True):
     folder_path = folder_path.strip('"')
     print(f"Describing folder: {folder_path}")
     
-    # Check for cached memory
     if use_memory:
         cached_memory = load_memory(folder_path)
         if cached_memory:
             print(f"Using cached description from {cached_memory['timestamp']}")
             return cached_memory["description"], cached_memory["summary"], cached_memory["details"], cached_memory["file_contents"]
 
-    # If no cached memory, analyze and generate description
     summary, details, file_contents = analyze_folder(folder_path)
 
     prompt = f"""
@@ -171,9 +169,41 @@ def reason_folder(folder_path, description, summary, details, file_contents):
     
     return reasoning
 
-# Run the analysis and reasoning
+def chat_about_folder(folder_path, description, summary, details, file_contents):
+    print("\nYou can now chat about the folder. Type 'exit' to stop.")
+    model = genai.GenerativeModel('gemini-1.5-flash')
+    
+    # Base context for the chat
+    base_prompt = f"""
+    You are an advanced reasoning AI assisting a user with a folder. Here’s the folder data:
+    - Contains {summary['total_files']} files and {summary['total_folders']} subfolders.
+    - Largest file: {summary['largest_file']} ({summary['largest_size'] / 1024:.2f} KB).
+    - File types: {summary['file_types']}.
+    - Files and snippets: {', '.join([f"{detail} - Content: '{file_contents.get(os.path.join(folder_path, detail.split(' ')[0]), 'N/A')}'" for detail in details[:10]])}.
+    - Summary: {description}
+
+    Answer the user's questions based on this data, providing clear and reasoned responses.
+    """
+    
+    while True:
+        query = input("Ask a question about the folder (or 'exit'): ")
+        if query.lower() == 'exit':
+            print("Ending chat session.")
+            break
+        
+        chat_prompt = f"{base_prompt}\nUser question: {query}"
+        print("Processing your question with Gemini API...")
+        try:
+            response = model.generate_content(chat_prompt)
+            print(f"Response: {response.text}")
+        except Exception as e:
+            print(f"API error: {e}")
+            print("Response: Sorry, I couldn’t process that due to an API issue.")
+
+# Run the analysis, reasoning, and chat
 folder_path = input("Enter folder path: ")
 description, summary, details, file_contents = describe_folder(folder_path)
 reasoning = reason_folder(folder_path, description, summary, details, file_contents)
 print("\nFolder Description:\n", description)
 print("\nReasoning:\n", reasoning)
+chat_about_folder(folder_path, description, summary, details, file_contents)
