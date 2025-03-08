@@ -22,14 +22,14 @@ def read_file_content(file_path):
     try:
         if file_type == "text/plain":
             with open(file_path, 'r', encoding='utf-8') as f:
-                content = f.read()[:500]
+                content = f.read()[:1000]
         elif file_type == "application/pdf":
             with open(file_path, 'rb') as f:
                 pdf_reader = PyPDF2.PdfReader(f)
-                content = "".join(page.extract_text() for page in pdf_reader.pages)[:500]
+                content = "".join(page.extract_text() for page in pdf_reader.pages if page.extract_text())[:1000]
         elif file_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
             doc = docx.Document(file_path)
-            content = " ".join(p.text for p in doc.paragraphs)[:500]
+            content = " ".join(p.text for p in doc.paragraphs)[:1000]
         else:
             content = "Content reading not supported for this file type."
     except Exception as e:
@@ -75,7 +75,7 @@ def save_memory(folder_path, summary, details, file_contents, description):
         "summary": summary,
         "details": details[:10],
         "file_contents": {k: v for k, v in list(file_contents.items())[:10]},
-        "description": description
+        "description": description  # Only description, no reasoning
     }
     
     existing_memory = {}
@@ -104,37 +104,76 @@ def load_memory(folder_path):
     return None
 
 def describe_folder(folder_path, use_memory=True):
-    # Strip quotes from folder_path
     folder_path = folder_path.strip('"')
     print(f"Describing folder: {folder_path}")
+    
+    # Check for cached memory
     if use_memory:
         cached_memory = load_memory(folder_path)
         if cached_memory:
-            print(f"Using cached memory from {cached_memory['timestamp']}")
-            return cached_memory["description"]
+            print(f"Using cached description from {cached_memory['timestamp']}")
+            return cached_memory["description"], cached_memory["summary"], cached_memory["details"], cached_memory["file_contents"]
 
+    # If no cached memory, analyze and generate description
     summary, details, file_contents = analyze_folder(folder_path)
 
     prompt = f"""
-    The folder contains {summary['total_files']} files and {summary['total_folders']} subfolders.
-    The largest file is {summary['largest_file']} ({summary['largest_size'] / 1024:.2f} KB).
-    The types of files present include: {summary['file_types']}.
+    Provide a concise summary of the following folder's contents based on this data:
+    - Contains {summary['total_files']} files and {summary['total_folders']} subfolders.
+    - Largest file: {summary['largest_file']} ({summary['largest_size'] / 1024:.2f} KB).
+    - File types: {summary['file_types']}.
+    - Files and snippets: {', '.join([f"{detail} - Content: '{file_contents.get(os.path.join(folder_path, detail.split(' ')[0]), 'N/A')}'" for detail in details[:10]])}.
 
-    Here is a list of files with a snippet of their contents:
-    {', '.join([f"{detail} - Content: '{file_contents.get(os.path.join(folder_path, detail.split(' ')[0]), 'N/A')}'" for detail in details[:10]])}
-
-    Describe this folder's content in a human-like summary, incorporating the file contents where relevant.
+    Response format:
+    Summary: [Your summary here]
     """
 
     print("Generating description with Gemini API")
-    model = genai.GenerativeModel('gemini-1.5-flash')
-    response = model.generate_content(prompt)
-    description = response.text
+    try:
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        response = model.generate_content(prompt)
+        description = response.text.replace("Summary:", "").strip()
+    except Exception as e:
+        print(f"API error: {e}")
+        description = "Failed to generate description due to API issue. Folder analysis completed."
 
     save_memory(folder_path, summary, details, file_contents, description)
-    return description
+    return description, summary, details, file_contents
 
-# Run the analysis
+def reason_folder(folder_path, description, summary, details, file_contents):
+    print(f"Reasoning about folder: {folder_path}")
+    
+    prompt = f"""
+    You are an advanced reasoning AI. Based on the following folder data and its summary, provide step-by-step reasoning about:
+    1. What this folder might represent and its purpose.
+    2. Any patterns or insights you can infer.
+    3. Suggestions for actions (e.g., organizing files, further analysis).
+
+    Folder data:
+    - Contains {summary['total_files']} files and {summary['total_folders']} subfolders.
+    - Largest file: {summary['largest_file']} ({summary['largest_size'] / 1024:.2f} KB).
+    - File types: {summary['file_types']}.
+    - Files and snippets: {', '.join([f"{detail} - Content: '{file_contents.get(os.path.join(folder_path, detail.split(' ')[0]), 'N/A')}'" for detail in details[:10]])}.
+    - Summary: {description}
+
+    Response format:
+    Reasoning: [Your step-by-step reasoning and suggestions here]
+    """
+
+    print("Generating reasoning with Gemini API")
+    try:
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        response = model.generate_content(prompt)
+        reasoning = response.text.replace("Reasoning:", "").strip()
+    except Exception as e:
+        print(f"API error: {e}")
+        reasoning = f"Reasoning failed due to API issue: {e}"
+    
+    return reasoning
+
+# Run the analysis and reasoning
 folder_path = input("Enter folder path: ")
-description = describe_folder(folder_path)
+description, summary, details, file_contents = describe_folder(folder_path)
+reasoning = reason_folder(folder_path, description, summary, details, file_contents)
 print("\nFolder Description:\n", description)
+print("\nReasoning:\n", reasoning)
